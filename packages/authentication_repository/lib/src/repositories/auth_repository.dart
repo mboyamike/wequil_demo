@@ -1,3 +1,4 @@
+import 'package:authentication_repository/src/models/models.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:user_repository/user_repository.dart';
 
@@ -16,7 +17,7 @@ class AuthRepository {
       if (firebaseUser == null) {
         return null;
       }
-      
+
       User? user = await _userRepository.fetchUser(uID: firebaseUser.uid);
       user ??= User(
         uID: firebaseUser.uid,
@@ -29,5 +30,12 @@ class AuthRepository {
     });
   }
 
+  Future<void> signInWithAuthProvider(
+      {required AuthProvider authProvider}) async {
+    await authProvider.signIn();
+  }
 
+  Future<void> signOut() {
+    return _firebaseAuth.signOut();
+  }
 }
